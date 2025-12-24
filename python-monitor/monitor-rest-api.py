@@ -43,7 +43,7 @@ CONFIG = {
     },
     
     'PING_INTERVAL': 60,
-    'SYNC_INTERVAL': 900,
+    'SYNC_INTERVAL': 60,  # Sync every 60 seconds (same as ping)
     
     'THRESHOLDS': {
         'good': 150,
