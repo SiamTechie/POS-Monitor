@@ -5,13 +5,13 @@
 
 // ========== FIREBASE CONFIGURATION ==========
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyARQrby2xDPI0NU7PVF-13ZZzF9N-DYTwo",
+    authDomain: "pos-monitor-7bcaf.firebaseapp.com",
+    databaseURL: "https://pos-monitor-7bcaf-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "pos-monitor-7bcaf",
+    storageBucket: "pos-monitor-7bcaf.firebasestorage.app",
+    messagingSenderId: "558212427792",
+    appId: "1:558212427792:web:3b123886c9d1e052af5a95"
 };
 
 // Initialize Firebase
