@@ -1,0 +1,33 @@
+{
+  "branch_name": "สาขาทดสอบ",
+  "firebase_credentials_path": "firebase-credentials.json",
+  "firebase_database_url": "https://YOUR-PROJECT.firebaseio.com",
+  
+  "targets": {
+    "pos_server": {
+      "host": "res.drugnetcenter.com",
+      "url": "https://res.drugnetcenter.com/hug",
+      "name": "POS Server"
+    },
+    "google_dns": {
+      "host": "8.8.8.8",
+      "name": "Google DNS"
+    },
+    "cloudflare_dns": {
+      "host": "1.1.1.1",
+      "name": "Cloudflare DNS"
+    }
+  },
+  
+  "timing": {
+    "ping_interval": 60,
+    "ping_count": 5,
+    "sync_interval": 900
+  },
+  
+  "thresholds": {
+    "good": 150,
+    "warning": 300,
+    "critical": 300
+  }
+}
