@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดตั้ง POS Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 600px;
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .info-box p {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .steps {
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: start;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 2rem 0;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn::before {
+            content: '⬇️ ';
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+
+        .warning strong {
+            color: #856404;
+        }
+
+        .warning p {
+            color: #856404;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+
+        .success p {
+            color: #155724;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .requirement {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .requirement h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .requirement ul {
+            margin-left: 1.5rem;
+            color: #666;
+        }
+
+        .requirement li {
+            margin: 0.25rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">📊</div>
+            <h1>ติดตั้ง POS Monitor</h1>
+            <p class="subtitle">ระบบติดตามคุณภาพอินเทอร์เน็ตอัตโนมัติ</p>
+        </div>
+
+        <div class="info-box">
+            <h3>✨ ติดตั้งง่ายเพียง 1 คลิก!</h3>
+            <p>ระบบจะติดตั้งและตั้งค่าทุกอย่างให้อัตโนมัติ ใช้เวลาเพียง 2-3 นาที</p>
+        </div>
+
+        <div class="requirement">
+            <h4>📋 สิ่งที่ต้องมีก่อนติดตั้ง:</h4>
+            <ul>
+                <li>✅ Windows 7 ขึ้นไป</li>
+                <li>✅ Python 3.8 ขึ้นไป (<a href="https://www.python.org/downloads/" target="_blank">ดาวน์โหลด</a>)</li>
+                <li>✅ เชื่อมต่ออินเทอร์เน็ต</li>
+            </ul>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>ดาวน์โหลดตัวติดตั้ง</h4>
+                    <p>คลิกปุ่มด้านล่างเพื่อดาวน์โหลดไฟล์ติดตั้ง</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>รันไฟล์ติดตั้ง</h4>
+                    <p>Double-click ที่ไฟล์ install.bat ที่ดาวน์โหลดมา</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>รอให้ติดตั้งเสร็จ</h4>
+                    <p>ระบบจะติดตั้งและตั้งค่าอัตโนมัติ ใช้เวลา 2-3 นาที</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>เสร็จสิ้น!</h4>
+                    <p>ระบบจะเริ่มทำงานอัตโนมัติทันที และทุกครั้งที่เปิดเครื่อง</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="https://github.com/SiamTechie/POS-Monitor/raw/main/python-monitor/install.bat" class="download-btn"
+            download>
+            ดาวน์โหลดตัวติดตั้ง
+        </a>
+
+        <div class="warning">
+            <strong>⚠️ หมายเหตุ:</strong>
+            <p>ถ้ายังไม่ได้ติดตั้ง Python กรุณาติดตั้งก่อน โดยคลิก <a href="https://www.python.org/downloads/"
+                    target="_blank">ที่นี่</a> และเลือก "Add Python to PATH" ตอนติดตั้ง</p>
+        </div>
+
+        <div class="success">
+            <p><strong>✅ หลังติดตั้งเสร็จ:</strong><br>
+                ระบบจะทำงานเบื้องหลังอัตโนมัติ ไม่ต้องเปิดหน้าเว็บหรือโปรแกรมใดๆ ค้างไว้</p>
+        </div>
+
+        <div class="footer">
+            <p>POS Monitor System | ติดปัญหาติดต่อทีม IT</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-detect branch name from WordPress if available
+        document.addEventListener('DOMContentLoaded', function () {
+            // Try to get WordPress username
+            const wpUser = document.body.getAttribute('data-user') ||
+                localStorage.getItem('branch_name') ||
+                '';
+
+            if (wpUser) {
+                console.log('Detected branch:', wpUser);
+            }
+        });
+    </script>
+</body>
+
+</html>
