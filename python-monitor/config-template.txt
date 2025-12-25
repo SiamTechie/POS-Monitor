@@ -1,0 +1,2 @@
+BRANCH_NAME=สาขาทดสอบ
+FIREBASE_URL=https://pos-monitor-7bcaf-default-rtdb.asia-southeast1.firebasedatabase.app

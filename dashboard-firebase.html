@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Monitor - Enhanced Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard-firebase.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">📊</div>
+                    <div>
+                        <h1 class="logo-title">POS Monitor Enhanced</h1>
+                        <p class="logo-subtitle">Multi-Layer Network Monitoring</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <!-- Hamburger Menu Button (Mobile Only) -->
+                    <button class="hamburger-btn" id="hamburgerBtn" title="Menu">
+                        <span class="hamburger-icon">☰</span>
+                    </button>
+
+                    <!-- Action Buttons (Desktop: inline, Mobile: dropdown) -->
+                    <div class="action-buttons" id="actionButtons">
+                        <button class="info-btn" id="infoBtn" title="วิธีใช้งาน">
+                            ❓ วิธีใช้
+                        </button>
+                        <button class="manage-btn" id="manageBtn" title="Manage branches">
+                            🗑️ Manage
+                        </button>
+                    </div>
+
+                    <!-- Status (Always visible) -->
+                    <div class="connection-status" id="connectionStatus">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Connecting...</span>
+                    </div>
+                    <div class="last-update">
+                        Last update: <span id="lastUpdate">--:--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Summary Cards -->
+            <section class="summary-section">
+                <div class="card summary-card card-total">
+                    <div class="card-icon">🏢</div>
+                    <div class="card-content">
+                        <div class="card-label">Total Branches</div>
+                        <div class="card-value" id="totalBranches">--</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card card-good">
+                    <div class="card-icon">✅</div>
+                    <div class="card-content">
+                        <div class="card-label">Good Connection</div>
+                        <div class="card-value" id="goodBranches">--</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card card-warning">
+                    <div class="card-icon">⚠️</div>
+                    <div class="card-content">
+                        <div class="card-label">Need Attention</div>
+                        <div class="card-value" id="warningBranches">--</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card card-critical">
+                    <div class="card-icon">🔴</div>
+                    <div class="card-content">
+                        <div class="card-label">Critical Issues</div>
+                        <div class="card-value" id="criticalBranches">--</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter & Search -->
+            <section class="filter-section">
+                <div class="card">
+                    <div class="filter-controls">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="searchInput" placeholder="Search branch name...">
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="good">Good</button>
+                            <button class="filter-btn" data-filter="warning">Warning</button>
+                            <button class="filter-btn" data-filter="critical">Critical</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Branch Status Grid -->
+            <section class="branches-section">
+                <div class="section-header">
+                    <h2>Branch Status</h2>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" id="viewGridBtn">📊 Grid</button>
+                        <button class="view-btn" data-view="table" id="viewTableBtn">📋 Table</button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading branch data from Firebase...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-icon">📭</div>
+                    <h3>No Data Available</h3>
+                    <p>Please ensure monitoring scripts are running on branch computers.</p>
+                </div>
+
+                <!-- Grid View -->
+                <div id="branchesGrid" class="branches-grid" style="display: none;">
+                    <!-- Branch cards will be inserted here -->
+                </div>
+
+                <!-- Table View -->
+                <div id="branchesTableContainer" class="branches-table-container" style="display: none;">
+                    <table class="branches-table">
+                        <thead>
+                            <tr>
+                                <th>สาขา</th>
+                                <th>สถานะ</th>
+                                <th>POS Server</th>
+                                <th>Internet</th>
+                                <th>HTTP</th>
+                                <th>วินิจฉัย</th>
+                                <th>อัพเดท</th>
+                            </tr>
+                        </thead>
+                        <tbody id="branchesTableBody">
+                            <!-- Table rows will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h3 class="modal-title">ยืนยันการลบ</h3>
+            <p class="modal-message">คุณต้องการลบ "<span id="deleteBranchName"></span>" จาก Dashboard หรือไม่?</p>
+            <p class="modal-warning">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelDeleteBtn">ยกเลิก</button>
+                <button class="modal-btn modal-btn-delete" id="confirmDeleteBtn">🗑️ ลบ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thai Help Modal -->
+    <div class="modal-overlay" id="infoModal" style="display: none;">
+        <div class="modal-content modal-help">
+            <div class="modal-header">
+                <h3 class="modal-title">📊 วิธีใช้งาน POS Monitor Dashboard</h3>
+                <button class="modal-close-btn" id="closeInfoBtn">✕</button>
+            </div>
+
+            <div class="help-content">
+                <section class="help-section">
+                    <h4>🎯 Dashboard ทำงานอย่างไร?</h4>
+                    <p>ระบบจะติดตั้ง <strong>POS Monitor</strong> บนเครื่องคอมพิวเตอร์ของแต่ละสาขา
+                        โปรแกรมจะทดสอบการเชื่อมต่อทุก 1 นาที และส่งผลลัพธ์มาแสดงที่ Dashboard นี้แบบ Real-time</p>
+                </section>
+
+                <section class="help-section">
+                    <h4>📈 ความหมายของผลลัพธ์</h4>
+                    <table class="help-table">
+                        <thead>
+                            <tr>
+                                <th>ค่าที่วัด</th>
+                                <th>ความหมาย</th>
+                                <th>บอกอะไร</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>POS Server</strong></td>
+                                <td>เวลาตอบสนองไปยัง res.drugnetcenter.com</td>
+                                <td>ถ้าช้า = Server POS มีปัญหา หรือ เน็ตไปไม่ถึง Server</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Internet</strong></td>
+                                <td>เวลาตอบสนองไปยัง Google (8.8.8.8)</td>
+                                <td>ถ้าช้า = อินเทอร์เน็ตสาขามีปัญหา</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HTTP Response</strong></td>
+                                <td>เวลาที่ Server ตอบกลับ HTTP Request</td>
+                                <td>ถ้าช้า = Server โหลดเกิน หรือ ระบบช้า</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="help-section">
+                    <h4>🚦 สถานะสี</h4>
+                    <div class="status-legend">
+                        <div class="legend-item">
+                            <span class="legend-badge good">✓ Good</span>
+                            <span>&lt; 100ms - เน็ตดีมาก ใช้งานลื่นไหล</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-badge warning">⚠ Warning</span>
+                            <span>100-300ms - ใช้งานได้ แต่อาจรู้สึกช้า</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-badge critical">✗ Critical</span>
+                            <span>&gt; 300ms - ช้ามาก อาจเกิด Timeout</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="help-section">
+                    <h4>🔍 วิเคราะห์ปัญหา</h4>
+                    <table class="help-table">
+                        <thead>
+                            <tr>
+                                <th>อาการ</th>
+                                <th>สาเหตุ</th>
+                                <th>แก้ไข</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>POS ช้า + Internet ช้า</td>
+                                <td>อินเทอร์เน็ตสาขามีปัญหา</td>
+                                <td>ตรวจสอบ Router / ติดต่อ ISP</td>
+                            </tr>
+                            <tr>
+                                <td>POS ช้า + Internet ปกติ</td>
+                                <td>Server POS มีปัญหา</td>
+                                <td>แจ้งทีม Server / Programmer</td>
+                            </tr>
+                            <tr>
+                                <td>HTTP ช้า + Ping ปกติ</td>
+                                <td>Server โหลดเกิน</td>
+                                <td>รอ Server ภาระลด หรือแจ้งทีม Server</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>POS Monitor Enhanced System | Multi-Layer Network Monitoring with Firebase</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <!-- Dashboard Script -->
+    <script src="dashboard-firebase.js"></script>
+</body>
+
+</html>

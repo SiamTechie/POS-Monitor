@@ -1,0 +1,2 @@
+# Python Dependencies for REST API Version
+requests==2.31.0

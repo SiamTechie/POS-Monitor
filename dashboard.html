@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Connection Monitor Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">📊</div>
+                    <div>
+                        <h1 class="logo-title">POS Monitor</h1>
+                        <p class="logo-subtitle">Connection Quality Dashboard</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="refreshBtn">
+                        <span class="btn-icon">🔄</span>
+                        Refresh
+                    </button>
+                    <div class="last-update">
+                        Last update: <span id="lastUpdate">--:--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Summary Cards -->
+            <section class="summary-section">
+                <div class="card summary-card card-total">
+                    <div class="card-icon">🏢</div>
+                    <div class="card-content">
+                        <div class="card-label">Total Branches</div>
+                        <div class="card-value" id="totalBranches">--</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card card-good">
+                    <div class="card-icon">✅</div>
+                    <div class="card-content">
+                        <div class="card-label">Good Connection</div>
+                        <div class="card-value" id="goodBranches">--</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card card-warning">
+                    <div class="card-icon">⚠️</div>
+                    <div class="card-content">
+                        <div class="card-label">Need Attention</div>
+                        <div class="card-value" id="warningBranches">--</div>
+                    </div>
+                </div>
+
+                <div class="card summary-card card-critical">
+                    <div class="card-icon">🔴</div>
+                    <div class="card-content">
+                        <div class="card-label">Critical Issues</div>
+                        <div class="card-value" id="criticalBranches">--</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter & Search -->
+            <section class="filter-section">
+                <div class="card">
+                    <div class="filter-controls">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="searchInput" placeholder="Search branch name...">
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="good">Good</button>
+                            <button class="filter-btn" data-filter="warning">Warning</button>
+                            <button class="filter-btn" data-filter="critical">Critical</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Branch Status Grid -->
+            <section class="branches-section">
+                <div class="section-header">
+                    <h2>Branch Status</h2>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">
+                            <span>📱</span> Grid
+                        </button>
+                        <button class="view-btn" data-view="table">
+                            <span>📋</span> Table
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading branch data...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-icon">📭</div>
+                    <h3>No Data Available</h3>
+                    <p>Please configure Google Sheets API and ensure data is being collected.</p>
+                </div>
+
+                <!-- Grid View -->
+                <div id="branchesGrid" class="branches-grid" style="display: none;">
+                    <!-- Branch cards will be inserted here -->
+                </div>
+
+                <!-- Table View -->
+                <div id="branchesTable" class="branches-table-container" style="display: none;">
+                    <table class="branches-table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Branch Name</th>
+                                <th>Avg Latency</th>
+                                <th>Max Latency</th>
+                                <th>Samples</th>
+                                <th>Last Update</th>
+                            </tr>
+                        </thead>
+                        <tbody id="branchesTableBody">
+                            <!-- Table rows will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>POS Connection Monitor System | Target: <code>res.drugnetcenter.com</code></p>
+        </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

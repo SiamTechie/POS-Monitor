@@ -1,0 +1,40 @@
+<script>
+(function() {
+    // ดึงชื่อ User จาก WordPress อัตโนมัติ
+    const BRANCH_NAME = "<?php $current_user = wp_get_current_user(); echo (!empty($current_user->user_login) ? $current_user->user_login : 'Guest'); ?>";
+    const TARGET_HOST = "https://res.drugnetcenter.com/hug"; 
+    const SYNC_URL = "วาง_URL_จาก_GOOGLE_SCRIPT_ที่นี่";
+    
+    const PING_INTERVAL = 60000;  // ทดสอบทุก 1 นาที
+    const SYNC_INTERVAL = 900000; // ส่งข้อมูลทุก 15 นาที
+    const STORAGE_KEY = 'pos_diag_data';
+
+    async function measureLatency() {
+        const start = performance.now();
+        try {
+            await fetch(TARGET_HOST, { mode: 'no-cors', cache: 'no-cache' });
+            const latency = Math.round(performance.now() - start);
+            let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            data.push({ t: new Date().toISOString(), l: latency });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) { console.error("Ping Error"); }
+    }
+
+    async function sendToGoogleSheets() {
+        let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        if (data.length === 0) return;
+        const avgPing = Math.round(data.reduce((a, b) => a + b.l, 0) / data.length);
+        const maxPing = Math.max(...data.map(d => d.l));
+        const payload = {
+            timestamp: new Date().toLocaleString('th-TH'),
+            branch: BRANCH_NAME,
+            avg: avgPing, max: maxPing, count: data.length
+        };
+        fetch(SYNC_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
+        .then(() => localStorage.removeItem(STORAGE_KEY));
+    }
+    setInterval(measureLatency, PING_INTERVAL);
+    setInterval(sendToGoogleSheets, SYNC_INTERVAL);
+    measureLatency();
+})();
+</script>
