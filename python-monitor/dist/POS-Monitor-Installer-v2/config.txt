@@ -1,0 +1,4 @@
+# POS Monitor - Config File
+# แก้ไขชื่อสาขาด้านล่างนี้
+
+BRANCH_NAME=สาขาXXX

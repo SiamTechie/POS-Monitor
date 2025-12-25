@@ -1,0 +1,25 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/python-monitor/**",
+      "**/*.py",
+      "**/*.bat",
+      "**/*.spec",
+      "**/*.exe",
+      "**/*.rar",
+      "**/build/**",
+      "**/dist/**",
+      "**/installer-output/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/dashboard-firebase.html"
+      }
+    ]
+  }
+}

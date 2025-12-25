@@ -1186,3 +1186,27 @@ body {
     background: var(--color-danger);
     color: white;
 }
+
+/* ========== New: Max & Jitter Display ========== */
+.metric-sub {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+}
+
+.jitter-warning {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.8rem;
+    color: var(--color-warning);
+    text-align: center;
+}
+
+/* Highlight high max values */
+.metric-sub.high-max {
+    color: var(--color-danger);
+    font-weight: 600;
+}

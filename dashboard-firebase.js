@@ -140,10 +140,18 @@ function updateDashboard() {
     // Update last update time
     updateLastUpdateTime();
 
-    // Hide loading, show content
+    // Hide loading, show content based on current view mode
     elements.loadingState.style.display = 'none';
     elements.emptyState.style.display = 'none';
-    elements.branchesGrid.style.display = 'grid';
+
+    // Show the correct view based on current state
+    if (state.currentView === 'table') {
+        elements.branchesGrid.style.display = 'none';
+        elements.branchesTableContainer.style.display = 'block';
+    } else {
+        elements.branchesGrid.style.display = 'grid';
+        elements.branchesTableContainer.style.display = 'none';
+    }
 }
 
 /**
@@ -191,6 +199,7 @@ function createBranchCard(branch) {
                     <div class="metric-value">
                         ${branch.pos_ping || '--'}<span class="metric-unit">ms</span>
                     </div>
+                    ${branch.pos_max ? `<div class="metric-sub">Max: ${branch.pos_max}ms</div>` : ''}
                 </div>
                 
                 <div class="metric">
@@ -198,6 +207,7 @@ function createBranchCard(branch) {
                     <div class="metric-value">
                         ${branch.google_ping || '--'}<span class="metric-unit">ms</span>
                     </div>
+                    ${branch.google_max ? `<div class="metric-sub">Max: ${branch.google_max}ms</div>` : ''}
                 </div>
                 
                 <div class="metric">
@@ -207,6 +217,12 @@ function createBranchCard(branch) {
                     </div>
                 </div>
             </div>
+            
+            ${(branch.google_jitter > 50 || branch.pos_jitter > 50) ? `
+            <div class="jitter-warning">
+                ⚠️ Jitter สูง: POS ${branch.pos_jitter || 0}ms / Internet ${branch.google_jitter || 0}ms
+            </div>
+            ` : ''}
             
             <div class="diagnosis-section">
                 <div class="diagnosis-label">📋 Diagnosis:</div>
